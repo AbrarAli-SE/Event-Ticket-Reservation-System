@@ -203,189 +203,33 @@ unordered_map<string, User> users;
 unordered_map<int, Event> events;
 unordered_map<string, bool> admins; // Track admin status
 
-// Function to set up the default admin user
-void setupDefaultAdmin()
-{
-    string defaultAdminUsername = "admin1";
-    string defaultAdminPassword = "adminpass";
-    string defaultAdminEmail = "admin1@example.com";
 
-    if (users.find(defaultAdminUsername) == users.end())
-    {
-        User adminUser = {defaultAdminUsername, defaultAdminEmail, defaultAdminPassword, {}};
-        users[defaultAdminUsername] = adminUser;
-        admins[defaultAdminUsername] = true; // Mark as admin
-        cout << "Default admin account created successfully!\n";
-    }
-    else
-    {
-        cout << "Default admin already exists.\n";
-    }
-}
+//              Alll Pre - Defined Functions
 
-// Function to handle signup
-void signup()
-{
-    string username, password, email;
+void setupDefaultAdmin();
+void updateUserProfile(const string &username);
+void signup();
+void login();
+bool adminLogin(string &loggedInAdmin);
+void searchEvents();
+bool adminLogin();
+void buyTickets(const string &username);
+void viewTickets(const string &username);
+void cancelTicket(const string &username);
+void addEvent();
+void updateEvent();
+void manageTickets();
+void viewAllUsers();
+void displayUserMenu(const string &username);
+void addNewAdmin();
+void removeAdmin();
+void updateadminPanel(const string &adminUsername);
+void updateAdminPassword(const string &adminUsername);
+void displayAdminMenu();
 
-    while (true)
-    {
-        cout << "\nEnter Username: ";
-        getline(cin, username);
-        if (errorHandler.nameValidation(username)) // Validate the username
-        {
-            break; // Exit loop if username is valid
-        }
-        else
-        {
-            cout << "\n\tInvalid Username. Please try again.\n";
-        }
-    }
 
-    while (true)
-    {
-        errorHandler.passLogic(password, "Enter Password: "); // Handle password input
-        if (errorHandler.passwordValidation(password))        // Validate password
-        {
-            break; // Exit loop if password is valid
-        }
-    }
+//          All FUNCTION LOGIC IMPLEMENTS 
 
-    while (true)
-    {
-        cout << "\nEnter Valid Email: ";
-        getline(cin, email);
-        // cout << "Debug: Entered email is '" << email << "'\n"; // Debug email input
-
-        if (errorHandler.emailValidation(email))
-        {
-            break;
-        }
-        else
-        {
-            cout << "\n\tInvalid Email. Please try again.\n";
-        }
-    }
-
-    // Create a new user and add them to the users map
-    User newUser = {username, email, password, {}};
-    users[username] = newUser;
-
-    cout << "\n\tSignup Successfully!";
-}
-
-void buyTickets(const string &username)
-{
-    int eventID, numberOfTickets;
-    cout << "Enter event ID: ";
-    cin >> eventID;
-
-    // if (!isPositiveInteger(eventID) || events.find(eventID) == events.end())
-    {
-        cout << "Invalid event ID.\n";
-        return;
-    }
-
-    cout << "Enter number of tickets: ";
-    cin >> numberOfTickets;
-
-    // if (!isPositiveInteger(numberOfTickets))
-    {
-        cout << "Number of tickets must be a positive integer.\n";
-        return;
-    }
-
-    Event &event = events[eventID];
-    int vipTicketsBooked = 0;
-    int regularTicketsBooked = 0;
-
-    // First allocate VIP seats if available
-    // while (vipTicketsBooked < numberOfTickets && !event.vipSeats.empty())
-    {
-        // event.vipSeats.pop();
-        vipTicketsBooked++;
-    }
-
-    // Allocate regular seats if VIP seats are less than required
-    // while (regularTicketsBooked < numberOfTickets - vipTicketsBooked && !event.regularSeats.empty())
-    {
-        event.regularSeatsQueue.pop();
-        regularTicketsBooked++;
-    }
-
-    if (vipTicketsBooked + regularTicketsBooked == numberOfTickets)
-    {
-        // Successfully booked tickets
-        users[username].tickets[eventID] += numberOfTickets;
-        cout << "Tickets booked successfully! VIP: " << vipTicketsBooked << ", Regular: " << regularTicketsBooked << endl;
-    }
-    else
-    {
-        cout << "Not enough seats available.\n";
-    }
-}
-
-void viewTickets(const string &username)
-{
-    if (users.find(username) == users.end())
-    {
-        cout << "User not found.\n";
-        return;
-    }
-
-    const User &user = users[username];
-    cout << "Your tickets:\n";
-    for (const auto &ticket : user.tickets)
-    {
-        cout << "Event ID: " << ticket.first << ", Number of Tickets: " << ticket.second << '\n';
-    }
-}
-
-void cancelTicket(const string &username)
-{
-    int eventID, numberOfTickets;
-    cout << "Enter event ID: ";
-    cin >> eventID;
-
-    cout << "Enter number of tickets to cancel: ";
-    cin >> numberOfTickets;
-
-    if (events.find(eventID) == events.end())
-    {
-        cout << "Event not found.\n";
-        return;
-    }
-
-    if (users[username].tickets[eventID] < numberOfTickets)
-    {
-        cout << "You don't have that many tickets.\n";
-        return;
-    }
-
-    Event &event = events[eventID];
-
-    // Release VIP seats
-    int vipSeatsToCancel = min(numberOfTickets, users[username].tickets[eventID]);
-    for (int i = 0; i < vipSeatsToCancel; ++i)
-    {
-        event.vipSeatsQueue.push(1); // Simulate releasing a VIP seat
-    }
-
-    // Release Regular seats
-    int regularSeatsToCancel = numberOfTickets - vipSeatsToCancel;
-    for (int i = 0; i < regularSeatsToCancel; ++i)
-    {
-        event.regularSeatsQueue.push(1); // Simulate releasing a regular seat
-    }
-
-    users[username].tickets[eventID] -= numberOfTickets;
-    if (users[username].tickets[eventID] == 0)
-    {
-        users[username].tickets.erase(eventID);
-    }
-
-    cout << "Tickets cancelled successfully!\n";
-}
 
 void updateUserProfile(const string &username)
 {
@@ -476,62 +320,75 @@ void updateUserProfile(const string &username)
     }
 }
 
-void addEvent()
+// Function to set up the default admin user
+void setupDefaultAdmin()
 {
-    int eventID;
-    string eventName;
-    int totalSeats, vipSeats, regularSeats;
+    string defaultAdminUsername = "admin1";
+    string defaultAdminPassword = "adminpass";
+    string defaultAdminEmail = "admin1@example.com";
 
-    cout << "Enter event ID: ";
-    cin >> eventID;
-
-    if (events.find(eventID) != events.end())
+    if (users.find(defaultAdminUsername) == users.end())
     {
-        cout << "Event ID already exists.\n";
-        return;
+        User adminUser = {defaultAdminUsername, defaultAdminPassword, defaultAdminEmail, {}};
+        users[defaultAdminUsername] = adminUser;
+        admins[defaultAdminUsername] = true; // Mark as admin
+        cout << "Default admin account created successfully!\n";
     }
-
-    cout << "Enter event name: ";
-    getline(cin, eventName);
-
-    cout << "Enter total seats: ";
-    cin >> totalSeats;
-
-    cout << "Enter number of VIP seats: ";
-    cin >> vipSeats;
-
-    regularSeats = totalSeats - vipSeats;
-    Event newEvent = {eventID, eventName, totalSeats, vipSeats, regularSeats};
-    for (int i = 0; i < vipSeats; ++i)
+    else
     {
-        // newEvent.vipSeats.push(1); // Simulate VIP seats
+        cout << "Default admin already exists.\n";
     }
-    for (int i = 0; i < regularSeats; ++i)
-    {
-        // newEvent.vipSeats.push(1); // Simulate regular seats
-    }
-
-    events[eventID] = newEvent;
-    cout << "Event added successfully!\n";
 }
 
-void updateEvent()
+// Function to handle signup
+void signup()
 {
-    // Simplified version, you can expand based on requirements
-}
+    string username, password, email;
 
-void manageTickets()
-{
-    // Simplified ticket management for now
-}
-
-void viewAllUsers()
-{
-    cout << "All registered users:\n";
-    for (const auto &user : users)
+    while (true)
     {
-        cout << "Username: " << user.first << ", Email: " << user.second.email << '\n';
+        cout << "\nEnter Username: ";
+        getline(cin, username);
+        if (errorHandler.nameValidation(username)) // Validate the username
+        {
+            break; // Exit loop if username is valid
+        }
+        else
+        {
+            cout << "\n\tInvalid Username. Please try again.\n";
+        }
     }
+
+    while (true)
+    {
+        errorHandler.passLogic(password, "Enter Password: "); // Handle password input
+        if (errorHandler.passwordValidation(password))        // Validate password
+        {
+            break; // Exit loop if password is valid
+        }
+    }
+
+    while (true)
+    {
+        cout << "\nEnter Valid Email: ";
+        getline(cin, email);
+        // cout << "Debug: Entered email is '" << email << "'\n"; // Debug email input
+
+        if (errorHandler.emailValidation(email))
+        {
+            break;
+        }
+        else
+        {
+            cout << "\n\tInvalid Email. Please try again.\n";
+        }
+    }
+
+    // Create a new user and add them to the users map
+    User newUser = {username, email, password, {}};
+    users[username] = newUser;
+
+    cout << "\n\tSignup Successfully!";
 }
 
 
@@ -558,20 +415,20 @@ void displayUserMenu(const string &username)
         }
         if (option == "1")
         {
-            buyTickets(username);
+            // buyTickets(username);
         }
         else if (option == "2")
         {
-            viewTickets(username);
+            // viewTickets(username);
         }
         else if (option == "3")
         {
-            cancelTicket(username);
+            // cancelTicket(username);
         }
         else if (option == "4")
         {
 
-            updateUserProfile(username);
+            // updateUserProfile(username);
         }
         else if (option == "5")
         {
@@ -583,8 +440,6 @@ void displayUserMenu(const string &username)
         }
     }
 }
-
-
 
 // Function to handle login
 void login()
@@ -618,10 +473,43 @@ void login()
     }
 }
 
+// Function for admin login
+bool adminLogin(string &loggedInAdmin)
+{
+    string username, password;
+    while (true)
+    {
+        cout << "\nEnter Admin Username: ";
+        getline(cin, username);
+        if (errorHandler.nameValidation(username)) // Validate the username
+        {
+            break; // Exit loop if username is valid
+        }
+        else
+        {
+            cout << "\n\n\tInvalid Username. Please try again.\n";
+        }
+    }
+    errorHandler.passLogic(password, "Enter Admin Password: "); // Handle password input
 
+    // Check if admin exists and the password is correct
+    if (admins.find(username) == admins.end())
+    {
+        cout << "\n\n\tAdmin not found.\n";
+        return false;
+    }
+    if (users[username].password != password)
+    {
+        cout << "Incorrect password.\n";
+        return false;
+    }
+
+    // If login is successful, store the username for further use
+    loggedInAdmin = username;
+    return true;
+}
 
 // Function to update user profile
-
 void updateAdminPassword(const string &adminUsername)
 {
     if (admins.find(adminUsername) == admins.end())
@@ -735,7 +623,7 @@ void updateadminPanel(const string &adminUsername)
         }
         else if (option == "4")
         {
-            cout << "\nExiting Admin Panel...\n";
+            cout << "\nExiting Update Admin Panel...\n";
             break;
         }
         else
@@ -745,40 +633,17 @@ void updateadminPanel(const string &adminUsername)
     }
 }
 
-void searchEvents()
-{
-    string query;
-    while (true)
-    {
-        cout << "\nEnter event name to search: ";
-        getline(cin, query);
-        if (errorHandler.nameValidation(query)) // Validate the username
-        {
-            break; // Exit loop if username is valid
-        }
-        else
-        {
-            cout << "\n\n\tInvalid Event Name. Please try again.\n";
-        }
-    }
-
-    cout << "Search results:\n";
-    for (const auto &event : events)
-    {
-        int eventID = event.first;
-        const Event &e = event.second;
-        if (e.eventName.find(query) != string::npos)
-        {
-            cout << "Event ID: " << eventID << ", Event Name: " << e.eventName << ", VIP Seats: " << e.vipSeats << ", Regular Seats: " << e.regularSeats << '\n';
-        }
-    }
-}
 // Admin functions
 void displayAdminMenu()
 {
-
-    while (true)
+    string loggedInAdmin;
+    if (!adminLogin(loggedInAdmin))
     {
+        return; // Exit if login fails
+    }
+    while (true)
+    {   
+        cout<<"\n";
         cout << "1. Add Event\n";
         cout << "2. Update Event\n";
         cout << "3. View All Users\n";
@@ -799,40 +664,25 @@ void displayAdminMenu()
 
         if (option == "1")
         {
-            addEvent();
+            // addEvent();
         }
         else if (option == "2")
         {
-            updateEvent();
+            // updateEvent();
             // Simplified version, you can expand based on requirements
         }
         else if (option == "3")
         {
-            viewAllUsers();
+            // viewAllUsers();
         }
         else if (option == "4")
         {
-            manageTickets();
+            // manageTickets();
         }
         else if (option == "5")
         {
 
-            string adminUsername;
-            while (true)
-            {
-                cout << "\nEnter Admin Username to update user profile: ";
-                getline(cin, adminUsername);
-                if (errorHandler.nameValidation(adminUsername))
-                {
-
-                    updateadminPanel(adminUsername);
-                    break;
-                }
-                else
-                {
-                    cout << "\nInvalid Username. Please try again.\n";
-                }
-            }
+            updateadminPanel(loggedInAdmin);
         }
         else if (option == "6")
         {
@@ -845,8 +695,6 @@ void displayAdminMenu()
         }
     }
 }
-
-
 
 int main()
 {
@@ -890,22 +738,6 @@ int main()
         else if (choice == "3")
         {
             displayAdminMenu();
-            // string adminUsername;
-            // while (true)
-            // {
-            //     cout << "\nEnter Admin Username to update user profile: ";
-            //     getline(cin, adminUsername);
-            //     if (errorHandler.nameValidation(adminUsername))
-            //     {
-
-            //         // updateadminPanel(adminUsername);
-            //         break;
-            //     }
-            //     else
-            //     {
-            //         cout << "\nInvalid Username. Please try again.\n";
-            //     }
-            // }
         }
         else if (choice == "5")
 
