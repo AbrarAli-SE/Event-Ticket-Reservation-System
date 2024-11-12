@@ -3,8 +3,6 @@
 #include <unordered_map>
 #include <queue>
 #include <conio.h>
-#include <algorithm>
-#include <vector>
 
 using namespace std;
 
@@ -260,12 +258,14 @@ void displayAllUserData();
 //          All FUNCTION LOGIC IMPLEMENTS
 
 // Helper function to convert string to lowercase
-string toLowerCase(const string &str)
-{
-    string lowerStr = str;
-    transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
+string toLowerCase(const string &str) {
+    string lowerStr = str; // Create a copy to modify
+    for (int i = 0; i < lowerStr.length(); i++) {
+        lowerStr[i] = tolower(lowerStr[i]);
+    }
     return lowerStr;
 }
+
 
 void displayAllUserData()
 {
