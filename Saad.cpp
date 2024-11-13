@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <queue>
 #include <conio.h>
+#include <iomanip>
 
 using namespace std;
 
@@ -258,14 +259,15 @@ void displayAllUserData();
 //          All FUNCTION LOGIC IMPLEMENTS
 
 // Helper function to convert string to lowercase
-string toLowerCase(const string &str) {
+string toLowerCase(const string &str)
+{
     string lowerStr = str; // Create a copy to modify
-    for (int i = 0; i < lowerStr.length(); i++) {
+    for (int i = 0; i < lowerStr.length(); i++)
+    {
         lowerStr[i] = tolower(lowerStr[i]);
     }
     return lowerStr;
 }
-
 
 void displayAllUserData()
 {
@@ -354,12 +356,14 @@ void updateUserProfile(const string &username)
     string newValue;
     while (true)
     {
-        cout << "\n";
-        cout << "Update Profile Menu:\n";
-        cout << "1. Update Username\n";
-        cout << "2. Update Password\n";
-        cout << "3. Update Email\n";
-        cout << "4. Exit\n";
+        cout << "\n\t\t ______________________________________________\n";
+        cout << "\t\t|       |" << setw(40) << "|\n";
+        cout << "\t\t| [1]   |     Update Username" << setw(20) << "|\n";
+        cout << "\t\t| [2]   |     Update Password" << setw(20) << "|\n";
+        cout << "\t\t| [3]   |     Update Email" << setw(23) << "|\n";
+        cout << "\t\t| [4]   |     Exit" << setw(31) << "|\n";
+        cout << "\t\t|_______|______________________________________|\n";
+
         while (true)
         {
             cout << "Enter your choice: ";
@@ -813,13 +817,16 @@ void displayUserMenu(const string &username)
 {
     while (true)
     {
-        cout << "\nUser Panel\n";
-        cout << "1. Buy Tickets\n";
-        cout << "2. View Tickets\n";
-        cout << "3. Cancel Tickets\n";
-        cout << "4. View All Events\n";
-        cout << "5. Update Profile\n";
-        cout << "0. Exit\n";
+        cout << "\n\t\t ______________________________________________\n";
+        cout << "\t\t|       |" << setw(40) << "|\n";
+        cout << "\t\t| [1]   |     Buy Tickets" << setw(24) << "|\n";
+        cout << "\t\t| [2]   |     View Tickets" << setw(23) << "|\n";
+        cout << "\t\t| [3]   |     Cancel Tickets" << setw(21) << "|\n";
+        cout << "\t\t| [4]   |     View All Events" << setw(20) << "|\n";
+        cout << "\t\t| [5]   |     Update Profile" << setw(21) << "|\n";
+        cout << "\t\t| [0]   |     Exit" << setw(31) << "|\n";
+        cout << "\t\t|_______|______________________________________|\n";
+
         string option;
         while (true)
         {
@@ -981,11 +988,14 @@ void updateadminPanel(const string &adminUsername)
 
     while (true)
     {
-        cout << "\nAdmin Panel:\n";
-        cout << "1. Update own Password\n";
-        cout << "2. Add New Admin\n";
-        cout << "3. Remove an Admin\n";
-        cout << "4. Exit Admin Panel\n";
+        cout << "\n\t\t ______________________________________________\n";
+        cout << "\t\t|       |" << setw(40) << "|\n";
+        cout << "\t\t| [1]   |     Update own Password" << setw(16) << "|\n";
+        cout << "\t\t| [2]   |     Add New Admin" << setw(22) << "|\n";
+        cout << "\t\t| [3]   |     Remove an Admin" << setw(20) << "|\n";
+        cout << "\t\t| [4]   |     Exit Admin Panel" << setw(19) << "|\n";
+        cout << "\t\t|_______|______________________________________|\n";
+
         string option;
         while (true)
         {
@@ -1154,10 +1164,12 @@ void updateEvent()
     eventID = stoi(eventIDStr);
     while (true)
     {
-        cout << "\n";
-        cout << "1. Update the event\n";
-        cout << "2. Delete the event\n";
-        cout << "0. Exit\n";
+        cout << "\n\t\t ______________________________________________\n";
+        cout << "\t\t|       |" << setw(40) << "|\n";
+        cout << "\t\t| [1]   |     Update the event" << setw(19) << "|\n";
+        cout << "\t\t| [2]   |     Delete the event" << setw(19) << "|\n";
+        cout << "\t\t| [0]   |     Exit" << setw(31) << "|\n";
+        cout << "\t\t|_______|______________________________________|\n";
         string choice;
 
         if (choice == "1")
@@ -1232,8 +1244,12 @@ void manageTickets()
 
     while (true)
     {
-        cout << "1. Add seats\n";
-        cout << "2. Remove seats\n";
+        cout << "\n\t\t ______________________________________________\n";
+        cout << "\t\t|       |" << setw(40) << "|\n";
+        cout << "\t\t| [1]   |     Add seats" << setw(26) << "|\n";
+        cout << "\t\t| [2]   |     Remove seats" << setw(23) << "|\n";
+        cout << "\t\t|_______|______________________________________|\n";
+
         string choice;
         while (true)
         {
@@ -1246,9 +1262,13 @@ void manageTickets()
             cout << "\n\tInvalid option! Please try again.\n\n";
         }
 
-        cout << "1. VIP Seats\n";
-        cout << "2. Regular Seats\n";
-        cout << "Enter seat type: ";
+        cout << "\n\t\t ______________________________________________\n";
+        cout << "\t\t|       |" << setw(40) << "|\n";
+        cout << "\t\t| [1]   |     VIP Seats" << setw(26) << "|\n";
+        cout << "\t\t| [2]   |     Regular Seats" << setw(22) << "|\n";
+        cout << "\t\t|_______|______________________________________|\n";
+        cout << "\t\t Enter seat type: ";
+
         string option;
         while (true)
         {
@@ -1400,15 +1420,18 @@ void displayAdminMenu()
     }
     while (true)
     {
-        cout << "\n";
-        cout << "1. Add Event\n";
-        cout << "2. Update Event\n";
-        cout << "3. Manage Tickets\n";
-        cout << "4. View All Users\n";
-        cout << "5. View All Events\n";
-        cout << "6. View All Users Data\n";
-        cout << "7. Manage Admin\n";
-        cout << "0. Exit\n";
+        cout << "\n\t\t ______________________________________________\n";
+        cout << "\t\t|       |" << setw(40) << "|\n";
+        cout << "\t\t| [1]   |     Add Event" << setw(26) << "|\n";
+        cout << "\t\t| [2]   |     Update Event" << setw(23) << "|\n";
+        cout << "\t\t| [3]   |     Manage Tickets" << setw(21) << "|\n";
+        cout << "\t\t| [4]   |     View All Users" << setw(21) << "|\n";
+        cout << "\t\t| [5]   |     View All Events" << setw(20) << "|\n";
+        cout << "\t\t| [6]   |     View All Users Data" << setw(16) << "|\n";
+        cout << "\t\t| [7]   |     Manage Admin" << setw(23) << "|\n";
+        cout << "\t\t| [0]   |     Exit" << setw(31) << "|\n";
+        cout << "\t\t|_______|______________________________________|\n";
+
         string option;
         while (true)
         {
@@ -1491,11 +1514,15 @@ int main()
     while (true)
     {
         cout << "\n\n\t**** Event Ticket Reservation System ****\n";
-        cout << "1. Sign Up\n";
-        cout << "2. Login\n";
-        cout << "3. Admin Panel\n";
-        cout << "4. Search Events\n";
-        cout << "5. Exit\n";
+        cout << "\n\t\t ______________________________________________\n";
+        cout << "\t\t|       |" << setw(40) << "|\n";
+        cout << "\t\t| [1]   |     Sign Up" << setw(28) << "|\n";
+        cout << "\t\t| [2]   |     Login" << setw(30) << "|\n";
+        cout << "\t\t| [3]   |     Admin Panel" << setw(24) << "|\n";
+        cout << "\t\t| [4]   |     Search Events" << setw(22) << "|\n";
+        cout << "\t\t| [5]   |     Exit" << setw(31) << "|\n";
+        cout << "\t\t|_______|______________________________________|\n";
+
         string choice;
         while (true)
         {
