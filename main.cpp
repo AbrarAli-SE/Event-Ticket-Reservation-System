@@ -396,6 +396,35 @@ void setupDefaultAdmin()
     {
         cout << "Default admin already exists.\n";
     }
+    // }string defaultAdminUsername = "admin2";
+    // string defaultAdminPassword = "adminpass2";
+    // string defaultAdminEmail = "admin2@example.com";
+
+    // if (users.find(defaultAdminUsername) == users.end())
+    // {
+    //     User adminUser = {defaultAdminUsername, defaultAdminPassword, defaultAdminEmail, {}};
+    //     users[defaultAdminUsername] = adminUser;
+    //     admins[defaultAdminUsername] = true;
+    //     cout << "Default admin account created successfully!\n";
+    // }
+    // else
+    // {
+    //     cout << "Default admin already exists.\n";
+    // }string defaultAdminUsername = "admin3";
+    // string defaultAdminPassword = "adminpass3";
+    // string defaultAdminEmail = "admin3@example.com";
+
+    // if (users.find(defaultAdminUsername) == users.end())
+    // {
+    //     User adminUser = {defaultAdminUsername, defaultAdminPassword, defaultAdminEmail, {}};
+    //     users[defaultAdminUsername] = adminUser;
+    //     admins[defaultAdminUsername] = true;
+    //     cout << "Default admin account created successfully!\n";
+    // }
+    // else
+    // {
+    //     cout << "Default admin already exists.\n";
+    // }
 }
 
 void buyTickets(const string &username)
@@ -990,7 +1019,11 @@ void removeAdmin()
     string targetAdminUsername;
     cout << "\nEnter the username of the admin to remove: ";
     getline(cin, targetAdminUsername);
-
+    if (admins.size() <= 1)
+    {
+        cout << "Cannot remove the last remaining admin.\n";
+        return; // Exit the function if there is only one admin
+    }
     if (admins.find(targetAdminUsername) != admins.end())
     {
         admins.erase(targetAdminUsername);
